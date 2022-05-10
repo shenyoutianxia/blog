@@ -45,6 +45,8 @@ Spring Boot API Project Seed 是一个基于Spring Boot & MyBatis的种子项目
 - 其他略
 
 ## 展示效果图
+![image](https://user-images.githubusercontent.com/95741711/167565400-20482744-efa4-4214-8a23-788ec6dc5d4a.png)
+
 
 
 ## License
