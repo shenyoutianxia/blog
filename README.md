@@ -49,7 +49,6 @@ Spring Boot API Project Seed 是一个基于Spring Boot & MyBatis的种子项目
 - Druid Spring Boot Starter（[查看官方中文文档](https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter/)）
 - Fastjson（[查看官方中文文档](https://github.com/Alibaba/fastjson/wiki/%E9%A6%96%E9%A1%B5)）
 - Hutool工具包（[查看官方文档](https://hutool.cn/docs/)）
-- Swagger API管理（[查看文档](https://github.com/SpringForAll/spring-boot-starter-swagger)）
 - 其他略
 
 ## License
