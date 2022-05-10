@@ -1,0 +1,76 @@
+
+/*导航栏的上下间距变小*/
+.m-padding-tb-mini{
+     padding-top: 0.2em !important;
+     padding-bottom: 0.2em !important;
+ }
+
+.m-padded-tb-mini{
+    padding-top: 0.1em !important;
+    padding-bottom: 0.1em !important;
+}
+
+.m-padded-tb-lager {
+    padding-top: 0.2em !important;
+    padding-bottom: 0.2em !important;
+}
+
+.m-padded-mini{
+    padding: 0.01em !important;
+}
+
+/*----------text----------*/
+.m-text{
+    letter-spacing: 1px !important;
+    line-height: 1.8em;
+    font-weight: 300 !important;
+}
+
+.m-text-spaced{
+    letter-spacing: 1px !important;
+}
+
+/*文本间距*/
+.m-text-line{
+    line-height: 1.8rem;
+}
+
+/*字体变小*/
+.m-text-thin {
+    font-weight: 300 !important;
+}
+
+.m-col-text-thin {
+    font-weight: 100 !important;
+    font-size: 10px;
+}
+
+/*字体颜色变暗 */
+.m-opacity-mini {
+    opacity: 0.8 !important;
+}
+
+
+/*----------display-----------*/
+.m-inline-block {
+    display: inline-block !important;
+}
+
+.replayDisplay{
+    display: none !important;
+}
+
+.m-container {
+    max-width: 72em !important;
+    margin: auto !important;
+}
+
+/*定义a元素 */
+a:hover{   /*去除下划线*/
+    text-decoration: none;
+}
+
+/*BootScript*/
+.log {
+    font-size: 25px !important;
+}

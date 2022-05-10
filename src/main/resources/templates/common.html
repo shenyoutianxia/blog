@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="commonheader(title)">
+    <meta charset="UTF-8">
+    <title th:replace="${title}">commons</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../static/bootstrap-4.2.1-dist/css/bootstrap.min.css" th:href="@{/bootstrap-4.2.1-dist/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/myCss.css" th:href="@{/css/myCss.css}">
+    <script src="../static/js/jquery-3.6.0.slim.js" th:src="@{/js/jquery-3.6.0.slim.js}"></script>
+    <script src="../static/js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
+    <script src="../static/bootstrap-4.2.1-dist/js/bootstrap.min.js" th:src="@{/bootstrap-4.2.1-dist/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!--blog头部内容-->
+<div th:fragment="navheader(n)">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-sm-between m-padding-tb-mini">
+
+        <a href="javaScript:void(0);" class="navbar-brand ml-5 mr-5"><b style="color: cornflowerblue"><i class="bi bi-bootstrap">Blog</i></b></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ml-5 " th:classappend="${n==1} ? 'active'">
+                    <a href="blog/index.html" th:href="@{/index.html}" class="nav-link"><i class="bi bi-bag-check">首页</i></a>
+                </li>
+                <li class="nav-item ml-5 " th:classappend="${n==2} ? 'active'">
+                    <a href="blog/types.html" th:href="@{/blog/types.html}" class="nav-link"><i class="bi bi-send">分类</i></a>
+                </li>
+                <li class="nav-item ml-5 " th:classappend="${n==3} ? 'active'">
+                    <a href="blog/tags.html" th:href="@{/blog/tags.html}" class="nav-link"><i class="bi bi-award">标签</i></a>
+                </li>
+                <li class="nav-item ml-5 " th:classappend="${n==4} ? 'active'">
+                    <a href="blog/archives.html" th:href="@{/blog/archives.html}" class="nav-link"><i class="bi bi-box-seam">归档</i></a>
+                </li>
+                <li class="nav-item ml-5 " th:classappend="${n==5} ? 'active'">
+                    <a href="blog/aboutMe.html" th:href="@{/blog/aboutMe.html}" class="nav-link">关于我&nbsp;<i class="bi bi-chat-quote"></i></a>
+                </li>
+            </ul>
+
+            <form th:action="@{/search}" th:styleappend="${n!=1} ? 'display:none;'" action="#" class="form-inline" method="post">
+                <form action="#" class="form-inline">
+                    <input class="form-control mr-sm-4" type="search" name="search" placeholder="Search...">
+                    <button class="btn btn-outline-success my-2 mr-sm-5 my-sm-0 m-text-thin" type="submit">搜索</button>
+                </form>
+            </form>
+
+            <div style="" th:styleappend="${n==1} ? 'display:none;'" class="mx-5 px-5">
+                <!--退出跳转登入页面-->
+                <a href="javascript:void(0);" data-toggle="popover"><img class="rounded-circle mx-2" src="../../static/images/shenhao.jpg" th:src="@{${session.user.avatar}}" style="width: 35px;height: 35px" alt="..."></a>
+                <script>
+                    $(function () {
+                        //使用data-toggle属性触发工具提示
+                        $('[data-toggle="popover"]').popover({
+                            animation:true,//应用CSS淡入淡出过度特效
+                            html:true,//支持HTML字符串
+                            offset:"200px",//设置偏移位置
+                            title:"<h4 class='text-center m-text-thin'>已登录</h4>",
+                            content:"<div class='bg-dark'><ul class=\"list-group list-group-flush\">\n" +
+                                "<a href=\"/logout\"><li class=\"list-group-item list-group-item-action d-flex \">退出登录</li></a>\n" +
+                                "<a href=\"/modify\"><li class=\"list-group-item list-group-item-action d-flex \">更改信息</li></a>\n" +
+                                "</ul></div>",//提示内容
+                            placement:"bottom",//显示位置
+                            trigger:"click",//鼠标单击是触发
+                        });
+                    });
+                </script>
+                <span class="text-secondary" th:text="${session.user.nickname}">shen</span>
+            </div>
+        </div>
+
+    </nav>
+</div>
+
+<!--底部footer-->
+<div th:fragment="footer">
+    <footer  class="bg-dark" style="margin-top: 80px">
+        <div class="ml-5 mr-5 ">
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-3 border-right border-secondary text-center">
+                    <img src="../static/images/shen.jpg" th:src="@{/images/shen.jpg}" class="rounded" alt="..." style="width: 150px">
+                </div>
+
+                <div class="col-3 border-right border-secondary">
+                    <div class="bg-dark text-secondary text-center m-text-spaced">
+                        <div class="card-body">
+                            <h5 class="card-title text-white m-opacity-mini"><i>最新博客</i></h5>
+                            <p class="card-text m-text-spaced m-text-thin m-text-line">
+                                <i class="bi bi-cursor"><a href="#" class="text-secondary" target="_blank">我的故事（shen）</a></i><br>
+                                关于刻意的联系清单 <br>
+                                失败要趁早
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 border-right border-secondary">
+                    <div class="bg-dark text-secondary text-center m-text-spaced">
+                        <div class="card-body">
+                            <h5 class="card-title text-white m-opacity-mini"><i>联系我</i></h5>
+                            <p class="card-text m-text-spaced m-text-thin m-text-line">
+                                Email: 1027683512@qq.com <br>
+                                QQ: 1027683512
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 ">
+                    <div class="bg-dark text-secondary text-center" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title text-white m-opacity-mini"><i>Message</i></h5>
+                            <p class="card-text m-text-spaced m-text-thin m-text-line">
+                                &nbsp;&nbsp;&nbsp;&nbsp;这是我的个人博客.分享关于爱好.思考相关的任何内容,希望可以带给来到这儿的人有所帮助...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <hr class="mt-4 mr-5 ml-5 bg-secondary">
+        <div class="text-center text-white m-opacity-mini">
+            <i>Copyring&copy;2021-2022 ShenHao Designed by ShenHao</i>
+            <br>
+            <br>
+        </div>
+    </footer>
+</div>
+
+
+</body>
+</html>

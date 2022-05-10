@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title})">
+    <title>blog</title>
+    <link th:include="common :: commonheader">
+</head>
+<body>
+<!--头部内容-->
+<div th:replace="common :: navheader(0)"></div>
+
+<!--中间内容-->
+<div class="m-padded-tb-lager container">
+    <div class="container py-5">
+        <div class="d-flex ">
+            <div class="row m-col-text-thin">
+                <div class="col-2">
+                    <img class="rounded-circle" style="width: 40px; height: 40px" src="../../static/images/teacher01.png" th:src="@{/images/teacher01.png}" alt="...">
+                </div>
+                <div class="col-3 py-3">
+                    <a href="#" class="text-secondary">shenhao</a>
+                </div>
+                <div class="col-4 py-3">
+                    <i class="bi bi-alarm">&nbsp;2021-12-2</i>
+                </div>
+                <div class="col-3 py-3">
+                    <i class="bi bi-eye">&nbsp;&nbsp;<span>232</span></i>
+                </div>
+            </div>
+        </div>
+
+        <!--头部-->
+        <div class="d-flex  mx-3 my-1 px-1 py-1">
+            <img src="../../static/images/student04.png" th:src="@{/images/student04.png}" class="img-fluid w-100 rounded " alt="...">
+        </div>
+
+        <!--内容-->
+        <div class="d-flex justify-content-between  border-top py-2 my-3">
+                <span>&nbsp;</span>
+                <i class="btn btn-outline-warning">原创</i>
+        </div>
+        <div class="d-flex ">
+            <div class="text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-secondary"><i>人生风雨</i></h5>
+                    <p class="card-text m-text-thin">
+                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浅淡人生，岁月的痕迹，我们一路走，一路感悟了着人生风雨，新的、旧的、来的、去的，不断上演，也不断错过，远了、近了、天涯也咫尺，始料不及也匆匆逝去。
+
+                        　　涉世红尘，谁能没有悲喜，人间行走，谁能没有得失，来来去去，风风雨雨，谁能没有挫折和委屈，岁月无情，将生活碾转成泥，时光寂寥，也有很多事情让我们承担不起，不得不学着放弃。
+
+                        　　千般过往，万般事物中，最应该放弃的就是放过自己，不让自己心智沉迷，不让自己顾此失彼，不要让自己疏远了心与灵魂的距离，不要让自己没有了享受快乐的精力。
+
+                        　　懂得放过自己，不让自己再匆忙的去追赶名利，慢下来，将自己的生命静静的梳理；懂得放过自己，不让自己的生活在繁忙中迷离，澄澈清晰，用智慧解开人生的秘密；懂得放过自己，坦然接受各种幸福和快乐，也面对各种忧伤和别离，尽情的将生命的过程自由的演绎，也就有了更多的乐趣。
+
+                        　　懂得放过自己，其实就是接纳了自己，与其让命运牵着我们的鼻子走，跟着无奈的潮水涌动，真不如放过自己，任生命自由自在的游弋，或许，我们会有更广阔的天地。
+
+                        　　人间事物，是是非非，人生命运，隐隐回回，谁能看的透彻，谁又能说的清楚，谁能理的明晰？
+
+                        　　在苦涩人生里，懂得放过自己，也许哭着哭着就笑了；在坎坷人生里，懂得放过自己，也许痛着痛着就好了；在迷茫世界里，懂得放过自己，也许熬着熬着就活明白了；在无常的世界里，懂得放过自己，也许那些残酷的记忆，都会变成回忆。
+
+                        　　懂得放过自己，实际是对自己的一种爱，放下利欲熏心的负累，放弃疲于奔命的追随，放松生命的苦累，在打破枷锁的一刻，那也是对生命的一种爱的回归。
+
+                        　　懂得放过自己，实际是对自己人生的一次赎罪，对自己的无知，对自己的愚昧，不能正确面对自己的痴心妄念，直到让心蒙上了灰，才懂得后悔。
+
+                        　　懂得放过自己，就是给了自己一片安静的天空，抛弃繁华，简单生活，为自己而活，对自己的欲望负责，不要徒劳无益的为虚伪活着。
+
+                        　　生命的脆弱，也经不起世事太多的炙热，懂得临渊而思，懂得适可而止，平凡着，简单着，也好过人生一辈子得不到解脱。
+
+                        　　懂得放过自己，也就真正的找到了自我，这不是逃避，而是让自己更自由的生活；这不是堕落，而是不让自己的生命匆忙的在这个世界走过；更不是退缩，而是让灵魂更加的鲜活。
+
+                        　　这一份懂得，虽然不能将幸福和美好定格，但是，懂得放过自己，打开桎梏，放下累赘，却是人生智慧的浓缩，也还原了生命的本质。
+
+                        　　人生本就是一场选择的角逐，我选择放过自己
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex border-bottom justify-content-center py-5">
+           <button class="btn btn-outline-danger rounded"><i class="bi bi-suit-heart ">&nbsp;+<span>2</span></i></button>
+        </div>
+
+        <!--留言区域-->
+        <div class="d-flex border-bottom  py-3 my-3">
+            <i class="bi bi-eraser text-secondary">
+                留言板
+            </i>
+        </div>
+        <div class="d-flex border-bottom py-2 my-3 ">
+            <div class="mb-3 px-3" style="width: 100%;">
+                <div class="row no-gutters">
+                    <div class="col-md-1 px-4">
+                        <img class="rounded" src="../../static/images/teacher02.png" th:src="@{/images/teacher02.png}" alt="..." style="width: 50px">
+                    </div>
+                    <div class="col-md-11 m-text-thin">
+                        <div class="card-body">
+                            <h6 class="card-title"><i>cheng</i></h6>
+                            <p class="card-text px-3">
+                                <!--访客-->
+                                <span class="text-secondary m-text-spaced m-text-thin">cheng :  <span>hello</span></span>
+                                <i class="bi bi-alarm-fill px-5 mx-5">&nbsp;&nbsp;2021-12-4</i>
+                                <!--回复内容-->
+                                <span></span>
+                                <!--回复时间-->
+                                <i></i>
+                            </p>
+                        </div>
+                        <div class="input-group mb-3 d-flex">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-info" type="button" id="button-addon1"><i class="bi bi-send">回复 ：</i></button>
+                            </div>
+                            <input type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--博客信息-->
+        <div class="d-flex justify-content-between  bg-info mt-5">
+            <div class="px-5 py-5 my-3">
+                <ul class="m-text-line m-text-spaced m-text-thin">
+                    <li>作者: 沈浩 （联系作者）</li>
+                    <li>发表时间: 2021-12-3</li>
+                    <li>版权声明: 自由转载-非商用-非衍生-保持署名 (创意共享3.0许可证)</li>
+                    <li>公众号转载: 请在文本末添加作者公众号二维码</li>
+                </ul>
+            </div>
+            <div class="px-3 py-5">
+                <img src="../../static/images/shen.jpg" th:src="@{/images/shen.jpg}" class="rounded" alt="..." style="width: 150px">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--底部footer-->
+<div th:replace="common :: footer"></div>
+</body>
+</html>

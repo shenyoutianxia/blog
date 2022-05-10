@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Controller</title>
+    <link th:include="common :: commonheader">
+</head>
+<body>
+<!--头部内容-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-sm-between m-padding-tb-mini">
+
+    <a href="javaScript:void(0);" th:href="@{/index.html}" class="navbar-brand ml-5 mr-5"><b style="color: cornflowerblue"><i class="bi bi-bootstrap">管理系统</i></b></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ml-5 ">
+                <a href="../blog/index.html" th:href="@{/blogController.html}" class="nav-link"><i class="bi bi-bag-check">博客</i></a>
+            </li>
+            <li class="nav-item ml-5 ">
+                <a href="../blog/types.html" th:href="@{/admin/typesController.html}" class="nav-link"><i class="bi bi-send">分类</i></a>
+            </li>
+            <li class="nav-item ml-5 ">
+                <a href="../blog/tags.html" th:href="@{/admin/tagsController.html}" class="nav-link"><i class="bi bi-award" >标签</i></a>
+            </li>
+        </ul>
+
+        <div class="mx-5 px-5">
+            <!--退出跳转登入页面-->
+            <a href="javascript:void(0);" data-toggle="popover"><img class="rounded-circle mx-2" src="../../static/images/shenhao.jpg" th:src="@{${session.user.avatar}}" style="width: 35px;height: 35px" alt="..."></a>
+            <script>
+                $(function () {
+                    //使用data-toggle属性触发工具提示
+                    $('[data-toggle="popover"]').popover({
+                        animation:true,//应用CSS淡入淡出过度特效
+                        html:true,//支持HTML字符串
+                        offset:"200px",//设置偏移位置
+                        title:"<h4 class='text-center m-text-thin'>已登录</h4>",
+                        content:"<div class='bg-dark'><ul class=\"list-group list-group-flush\">\n" +
+                            "<a href=\"/logout\"><li class=\"list-group-item list-group-item-action d-flex \">退出登录</li></a>\n" +
+                            "<a href=\"/modify\"><li class=\"list-group-item list-group-item-action d-flex \">更改信息</li></a>\n" +
+                            "</ul></div>",//提示内容
+                        placement:"bottom",//显示位置
+                        trigger:"click",//鼠标单击是触发
+                    });
+                });
+            </script>
+            <span class="text-secondary" th:text="${session.user.nickname}">shen</span>
+        </div>
+    </div>
+
+</nav>
+<!--中间内容-->
+<div class="m-padded-tb-lager container my-4">
+    <div class="tab-content container" id="nav-tabContent">
+        <div class="card">
+            <div class="card-body bg-info">
+                Hi!<br>
+                <span th:text="${session.user.nickname}" class="text-warning"></span>,欢迎登录成功--
+            </div>
+        </div>
+        <!--头部-->
+        <div class="d-flex  mx-3 my-1 px-1 py-1">
+            <img src="../../static/images/student04.png" th:src="@{/images/student04.png}" class="img-fluid w-100 rounded " alt="...">
+        </div>
+    </div>
+</div>
+
+<!--底部footer-->
+<div th:replace="common :: footer"></div>
+</body>
+</html>

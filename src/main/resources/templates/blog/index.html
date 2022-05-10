@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title})">
+    <title>Blog</title>
+    <link th:include="common :: commonheader">
+</head>
+<body>
+<!--头部内容-->
+<div th:replace="common :: navheader(1)"></div>
+
+<!--中间内容-->
+<div class="m-padded-tb-lager m-container">
+    <div class="container">
+        <!--header-->
+        <div class="row">
+            <!--左边博客列表-->
+            <div class="col-8  mt-5">
+                <div class="row">
+                    <div class="col-10">
+                        <h3 class="text-info m-text-thin"><i class="bi bi-battery-half">博客</i></h3>
+                    </div>
+                    <div class="col-2">
+                        <i class="bi bi-file-earmark-text text-secondary"></i><h3 class="text-secondary m-inline-block m-text-thin" th:text="${blogList.pages}">14</h3><i class="text-secondary">页</i>
+                    </div>
+                </div>
+
+
+                <div  th:id="indexHtml" th:fragment="indexHtml">
+                    <!--content-->
+                    <div class="row border-bottom m-padded-tb-lager" th:each="blog:${blogList.list}" style="margin-top: 20px" >
+                        <div class="col-8 border-top">
+
+                            <h3 class="m-text-thin " style="margin-top: 40px"><a href="#" class="text-dark" th:href="@{/blog/peopleBlog.html{id}(id=${blog.id})}" th:text="${blog.title}" target="_blank">你真的理解什么是人生?</a></h3>
+                            <p class="m-text-thin m-text" th:text="|${#strings.abbreviate(blog.content,100)}...|">
+                                数量的发挥才能晋级上看夫卡是当年覅就萨加快递费南疆喀什南方科技,都YAQGDWYUVASBDJ和巴萨的吧撒旦封闭的环境安守本分.奥萨蒂阿斯顿
+                                奥数班等哈说不定就哈说不定就会把手机号按实际回款的把监控设备打卡机圣诞卡了解.........
+                            </p>
+                            <div class="row">
+                                <div class="col-9">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <img class="rounded-circle" style="width: 50px; height: 50px" src="../../static/images/teacher01.png" th:src="@{${blog.user.avatar}}" alt="...">
+                                        </div>
+                                        <div class="col-3 py-3">
+                                            <a href="javaScript:void(0);" th:href="@{/blog/aboutPeople.html/{id}(id=${blog.id})}" class="text-secondary" th:text="${blog.user.nickname}">shenhao</a>
+                                        </div>
+                                        <div class="col-4 py-3">
+                                            <i class="bi bi-alarm m-col-text-thin">&nbsp;&nbsp;<span th:text="${blog.updateTime == null ? dateFormat.format(blog.createTime):dateFormat.format(blog.updateTime)}">2021-12-2</span></i>
+                                        </div>
+                                        <div class="col-3 py-3">
+                                            <i class="bi bi-hand-index m-col-text-thin">&nbsp;&nbsp;<span th:text="${blog.likes}">2</span></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-3 py-3">
+                                    <a href="javaScript:void(0);" target="_blank"><button type="button" class="btn btn-sm btn-outline-info m-padded-tb-mini m-text-thin" th:text="${blog.type.name}">认知升级</button></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 " style="margin-top: 50px">
+                            <a href="javaScript:void(0);" th:href="@{/blog/peopleBlog.html{id}(id=${blog.id})}" target="_blank" >
+                                <img class="rounded mx-auto d-block" style="width: 235px;height: 150px" src="../../static/images/student04.png" th:src="@{${blog.firstPicture}}" alt="...">
+                            </a>
+                        </div>
+                    </div>
+
+                    <!--footer-->
+                    <div class="row" style="margin-top: 50px;">
+                        <div class="col-1">
+                            <span>&nbsp;</span>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" id="nextPage" class="btn btn-lg btn-outline-info" th:unless="${blogList.pageNum==1}"><i class="bi bi-caret-left"></i></button>
+
+                        </div>
+                        <div class="col-6 text-center text-muted">
+                            <span th:text="${blogList.pageNum}">&nbsp;</span>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" id="postPage" class="btn btn-lg btn-outline-info" th:unless="${blogList.pageNum==blogList.pages}"><i class="bi bi-caret-right"></i></button>
+                        </div>
+                        <div class="col-1">
+                            <span>&nbsp;</span>
+                        </div>
+                        <script>
+                            $(function () {
+                                //翻看下一页
+                                $('#nextPage').click(function () {
+
+                                    $.ajax({
+                                        type: "get",
+                                        url: "/index.html",
+                                        contextType:"application/json",
+                                        data: {'ajax':'true','pn':[[${blogList.pageNum}-1]]},
+                                        success:function (data) {
+                                            $('#indexHtml').html(data);
+                                        }
+                                    });
+                                });
+
+                                //翻看上一页
+                                $('#postPage').click(function () {
+
+                                    $.ajax({
+                                        type: "get",
+                                        url: "/index.html",
+                                        contextType:"application/json",
+                                        data: {'ajax':'true','pn':[[${blogList.pageNum}+1]]},
+                                        success:function (data) {
+                                            $('#indexHtml').html(data);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <!--右边的卡片栏-->
+            <div class="col-4 mt-5">
+
+                <!--用户显示-->
+                <div class="card mt-5  mb-3 ml-5" style="max-width: 18rem;">
+                   <div class="card-body  text-center">
+                       <img class="rounded-circle" src="../../static/images/student04.png" th:src="@{${session.user.avatar}}" alt="...">
+                   </div>
+                    <div class="mt-4 m-text-thin text-center text-muted">
+                        <span>用户名：&nbsp;</span>
+                        <span th:text="${session.user.nickname}"></span>
+                    </div>
+
+                    <div class="mt-2 m-text-thin text-center text-muted">
+                        <span>账号：&nbsp;</span>
+                        <span th:text="${session.user.username}"></span>
+                    </div>
+                    <div class="mt-4 mb-2 d-flex justify-content-center">
+                        <a href="javaScript:void(0);" th:href="@{/logout}"><button type="button" class="btn btn-outline-danger">退出</button></a>
+                    </div>
+                </div>
+
+                <!--分类-->
+                <div class="card bg-light mt-5 mb-3 ml-5" style="max-width: 18rem;">
+                    <div class="card-header d-flex justify-content-sm-between">
+                        <i class="bi bi-brush">分类</i>
+                        <i class="bi bi-card-list">&nbsp;<a href="#" class="text-secondary" target="_blank">more</a></i>
+                    </div>
+                    <ul class="list-group list-group-flush">
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">学习日志<span class="badge badge-info">20</span></li></a>-->
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">思考与感悟<span class="badge badge-info">30</span></li></a>-->
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">清单<span class="badge badge-info">40</span></li></a>-->
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">专业方向<span class="badge badge-info">60</span></li></a>-->
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">创业<span class="badge badge-info">70</span></li></a>-->
+                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between" th:each="type:${typeList}" ><span th:text="${type.name}">认识升级</span><span class="badge badge-info" th:text="${#arrays.length(type.blogs)}">20</span></li></a>
+                    </ul>
+                </div>
+
+                <!--标签-->
+                <div class="card mt-5 bg-light mb-3 ml-5" style="max-width: 18rem;">
+                    <div class="card-header d-flex justify-content-sm-between">
+                        <i class="bi bi-bookmarks">标签</i>
+                        <i class="bi bi-card-list">&nbsp;<a href="#" class="text-secondary" target="_blank">more</a></i>
+                    </div>
+                    <ul class="list-group list-group-flush">
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">兴趣爱好<span class="badge badge-info">20</span></li></a>-->
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">Flag计划<span class="badge badge-info">40</span></li></a>-->
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">每日一语<span class="badge badge-info">60</span></li></a>-->
+<!--                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between border-bottom">对自己说<span class="badge badge-info">70</span></li></a>-->
+                        <a href="#"><li class="list-group-item list-group-item-action d-flex justify-content-sm-between" th:each="tag:${tagList}"><span th:text="${tag.name}">对我留言</span><span class="badge badge-info" th:text="${#arrays.length(tag.blogs)}">20</span></li></a>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+<!--底部footer-->
+<div th:replace="common :: footer"></div>
+</body>
+</html>

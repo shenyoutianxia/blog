@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title})">
+    <title>用户信息</title>
+    <link th:include="common :: commonheader">
+</head>
+<body>
+<!--头部内容-->
+<div th:replace="common :: navheader(7)"></div>
+<!--用户显示-->
+<div class="card mt-5 text-center" style="max-width: 22rem; margin-left: 600px">
+
+    <div class="card-body text-center">
+        <form id="avatarForm" action="/updateUserAvatar" method="post" enctype="multipart/form-data">
+            <!-- 要将父布局的position设置为relative，父布局将无法包裹input -->
+            <div style="position: relative;">
+                <!--设置input的position为absolute，使其不按文档流排版，并设置其包裹整个布局 -->
+                <!-- 设置opactity为0，使input变透明 -->
+                <!-- 只接受jpg，gif和png格式 -->
+                <input id="upload-input" style="position: absolute; top: 0; bottom: 0; left: 0;right: 0; opacity: 0;" type="file" name="file"  accept="image/gif, image/jpg, image/png" />
+                <img class="rounded-circle" id="img" th:src="${session.user.avatar}" alt="...">
+                <script>
+                    $(function () {
+                        $('#upload-input').change(function () {
+                            var formData = new FormData($('#avatarForm')[0]); //avatarForm为表单的id
+                            $.ajax({
+                                type: 'post',
+                                url: '/updateUserAvatar',
+                                contentType: false,
+                                processData: false,
+                                cache: false,
+                                async: false,  //异步关闭，同步完成，保证回显图片
+                                data: formData,
+                                success: function (data) {
+                                    document.getElementById("img").src=data;
+                                }
+                            });
+                        });
+                    });
+                </script>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="mt-2 m-text-thin text-center text-muted">
+        <span>账号：&nbsp;</span>
+        <span th:text="${session.user.username}"></span>
+    </div>
+
+    <div class="mt-2 m-text-thin text-center text-muted">
+        <span>密码：&nbsp;</span>
+        <input type="password" th:value="${session.user.password}" class="form-control" placeholder="用户密码" name="password" id="password"/>
+    </div>
+
+    <div class="mt-4 m-text-thin text-center text-muted">
+        <span>用户名：&nbsp;</span>
+        <input type="text" th:value="${session.user.nickname}" class="form-control" placeholder="用户名" name="nickname" id="nickname"/>
+    </div>
+
+    <div class="mt-4 m-text-thin text-center text-muted">
+        <span>邮箱：&nbsp;</span>
+        <input type="text" th:value="${session.user.email}" class="form-control" placeholder="邮箱" name="nickname" id="email"/>
+    </div>
+
+    <div class="mt-4 mb-2 d-flex justify-content-center">
+        <button type="button" id="modify" class="btn btn-outline-danger">修改</button>
+    </div>
+
+    <script>
+        $(function () {
+
+            $('#modify').click(function () {
+
+                var id = '[[${session.user.id}]]';
+                var avatar = document.getElementById("img").src;
+                var username = '[[${session.user.username}]]';
+                var password = '[[${session.user.password}]]';
+                var nickname = '[[${session.user.nickname}]]';
+                var email = '[[${session.user.email}]]';
+                $.ajax({
+                    type: 'post',
+                    url: '/updateUser',
+                    contextType:"application/json",
+                    data: {"id":id,"avatar":avatar,"username":username,"password":password,"nickname":nickname,"email":email},
+                    success: function (data) {
+                        location.href = data;
+                    }
+                });
+            });
+        })
+    </script>
+</div>
+
+<!--底部footer-->
+<div th:replace="common :: footer"></div>
+</body>
+</html>

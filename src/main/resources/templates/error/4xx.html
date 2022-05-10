@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title})">
+    <title>4XX错误</title>
+    <link th:include="common :: commonheader">
+</head>
+<body>
+<!--头部内容-->
+<div th:replace="common :: navheader(0)"></div>
+404
+<!--底部footer-->
+<div th:replace="common :: footer"></div>
+</body>
+</html>

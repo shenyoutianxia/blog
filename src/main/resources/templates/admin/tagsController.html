@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Controller</title>
+    <link th:include="common :: commonheader">
+</head>
+<body>
+<!--头部内容-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-sm-between m-padding-tb-mini">
+
+    <a href="javaScript:void(0);" th:href="@{/index.html}"class="navbar-brand ml-5 mr-5"><b style="color: cornflowerblue"><i class="bi bi-bootstrap">标签管理系统</i></b></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ml-5 ">
+                <a href="../blog/index.html" th:href="@{/blogController.html}" class="nav-link"><i class="bi bi-bag-check">博客</i></a>
+            </li>
+            <li class="nav-item ml-5 ">
+                <a href="../blog/types.html" th:href="@{/admin/typesController.html}" class="nav-link"><i class="bi bi-send">分类</i></a>
+            </li>
+            <li class="nav-item ml-5 active">
+                <a href="../blog/tags.html" th:href="@{/admin/tagsController.html}" class="nav-link"><i class="bi bi-award" >标签</i></a>
+            </li>
+        </ul>
+
+        <div class="mx-5 px-5">
+            <!--退出跳转登入页面-->
+            <a href="javascript:void(0);" data-toggle="popover"><img class="rounded-circle mx-2" src="../../static/images/shenhao.jpg" th:src="@{${session.user.avatar}}" style="width: 35px;height: 35px" alt="..."></a>
+            <script>
+                $(function () {
+                    //使用data-toggle属性触发工具提示
+                    $('[data-toggle="popover"]').popover({
+                        animation:true,//应用CSS淡入淡出过度特效
+                        html:true,//支持HTML字符串
+                        offset:"200px",//设置偏移位置
+                        title:"<h4 class='text-center m-text-thin'>已登录</h4>",
+                        content:"<div class='bg-dark'><ul class=\"list-group list-group-flush\">\n" +
+                            "<a href=\"/logout\"><li class=\"list-group-item list-group-item-action d-flex \">退出登录</li></a>\n" +
+                            "<a href=\"/modify\"><li class=\"list-group-item list-group-item-action d-flex \">更改信息</li></a>\n" +
+                            "</ul></div>",//提示内容
+                        placement:"bottom",//显示位置
+                        trigger:"click",//鼠标单击是触发
+                    });
+                });
+            </script>
+            <span class="text-secondary" th:text="${session.user.nickname}">shen</span>
+        </div>
+    </div>
+
+</nav>
+
+<!--中间内容-->
+<div class="m-padded-tb-lager container my-4">
+    <nav>
+        <div class="nav nav-tabs shadow-sm" id="nav-tab" role="tablist">
+            <a href="javaScript:void(0);" th:href="@{/admin/tagsController.html}" class="nav-link text-info active" id="nav-controller-tab" >列表</a>
+            <a href="javaScript:void(0);" th:href="@{/admin/tagsControllerInput.html}" class="nav-link text-info" id="nav-send-tab" >发布</a>
+        </div>
+    </nav>
+    <div class="tab-content container" id="nav-tabContent">
+        <!--博客管理界面-->
+        <div class="show active " id="nav-controller">
+            <div class="my-5 ">
+                <!--表格内容-->
+                <div class=" row border border-muted rounded my-5" >
+                    <table class="table table-hover text-center text-dark" th:id="tobody" th:fragment="tobody">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col">名称</th>
+                            <th scope="col"></th>
+                            <th scope="col">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <span class="text-danger" th:text="${message}"></span>
+                        <tr th:each="tag , stats:${tags.list}">  <!-- 遍历的当前状态stats -->
+                            <td>&nbsp;</td>
+                            <td th:text="${stats.count}">1</td>
+                            <th scope="row" class="text-secondary" th:text="${tag.name}">刻意练习清单</th>
+                            <td></td>
+                            <td>
+                                <div class=" m-text-thin">
+                                    <a href="javaScript:void(0);" th:href="@{/admin/tagsControllerUpdate.html/(id=${tag.id})}"><button id="modify" class="btn btn-outline-primary">修改</button></a>
+
+                                    <button id="del" class="btn btn-outline-danger">删除</button>
+                                    <script>
+                                        //删除该tag实体
+                                        $(function () {
+                                            $('#del').click(function () {
+                                                $.ajax({
+                                                    type: 'get',
+                                                    url: "/deleteTag?id=[[${tag.id}]]",
+                                                    contextType:"application/json",
+                                                    success: function (data) {
+                                                        location.href = data;
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!--翻页-->
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <!--翻页按钮-->
+                                <div class="m-text-thin m-text-spaced ">
+                                    <a href="javaScript:void(0);" ><button id="nextPage" class="btn btn-outline-warning" th:unless="${tags.pageNum==1}">上一页</button></a>
+                                    <a href="javaScript:void(0);" ><button id="postPage" class="btn btn-outline-warning" th:unless="${tags.pageNum==tags.pages}">下一页</button></a>
+
+                                    <script>
+                                        $(function () {
+                                            //翻看下一页
+                                            $('#nextPage').click(function () {
+
+                                                $.ajax({
+                                                    type: "get",
+                                                    url: "/admin/tagsControllerPages.html/?pn=[[${tags.pageNum}-1]]",
+                                                    contextType:"application/json",
+                                                    success:function (data) {
+                                                        $('#tobody').html(data);
+                                                    }
+                                                });
+                                            });
+
+                                            //翻看上一页
+                                            $('#postPage').click(function () {
+
+                                                $.ajax({
+                                                    type: "get",
+                                                    url: "/admin/tagsControllerPages.html/?pn=[[${tags.pageNum}+1]]",
+                                                    contextType:"application/json",
+                                                    success:function (data) {
+                                                        $('#tobody').html(data);
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                            <td class="text-warning" th:text="${tags.pageNum}">1</td>
+                            <td></td>
+                            <td>
+                                <div class="m-text-thin m-text-spaced">
+                                    <a href="javaScript:void(0);" th:href="@{/admin/tagsControllerInput.html}" class="nav-link"><button  class="btn btn-outline-warning"><i class="bi bi-brush">新增</i></button></a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--底部footer-->
+<div th:replace="common :: footer"></div>
+</body>
+</html>

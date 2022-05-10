@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>Controller</title>
+    <link th:include="common :: commonheader">
+</head>
+<body>
+<!--头部内容-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-sm-between m-padding-tb-mini">
+
+    <a href="javaScript:void(0);" th:href="@{/index.html}" class="navbar-brand ml-5 mr-5"><b style="color: cornflowerblue"><i class="bi bi-bootstrap">管理系统</i></b></a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ml-5 active">
+                <a href="../blog/index.html" th:href="@{/blogController.html}" class="nav-link"><i class="bi bi-bag-check">博客</i></a>
+            </li>
+            <li class="nav-item ml-5 ">
+                <a href="../blog/types.html" th:href="@{/admin/typesController.html}" class="nav-link"><i class="bi bi-send">分类</i></a>
+            </li>
+            <li class="nav-item ml-5 ">
+                <a href="../blog/tags.html" th:href="@{/admin/tagsController.html}" class="nav-link"><i class="bi bi-award" >标签</i></a>
+            </li>
+        </ul>
+
+        <div class="mx-5 px-5">
+            <!--退出跳转登入页面-->
+            <a href="javascript:void(0);" data-toggle="popover"><img class="rounded-circle mx-2" src="../../static/images/shenhao.jpg" th:src="@{${session.user.avatar}}" style="width: 35px;height: 35px" alt="..."></a>
+            <script>
+                $(function () {
+                    //使用data-toggle属性触发工具提示
+                    $('[data-toggle="popover"]').popover({
+                        animation:true,//应用CSS淡入淡出过度特效
+                        html:true,//支持HTML字符串
+                        offset:"200px",//设置偏移位置
+                        title:"<h4 class='text-center m-text-thin'>已登录</h4>",
+                        content:"<div class='bg-dark'><ul class=\"list-group list-group-flush\">\n" +
+                            "<a href=\"/logout\"><li class=\"list-group-item list-group-item-action d-flex \">退出登录</li></a>\n" +
+                            "<a href=\"/modify\"><li class=\"list-group-item list-group-item-action d-flex \">更改信息</li></a>\n" +
+                            "</ul></div>",//提示内容
+                        placement:"bottom",//显示位置
+                        trigger:"click",//鼠标单击是触发
+                    });
+                });
+            </script>
+            <span class="text-secondary" th:text="${session.user.nickname}">shen</span>
+        </div>
+    </div>
+
+</nav>
+
+<!--中间内容-->
+<div class="m-padded-tb-lager container my-4">
+    <nav>
+        <div class="nav nav-tabs shadow-sm" id="nav-tab" role="tablist">
+            <a href="javaScript:void(0);" th:href="@{/admin/blogController.html}" class="nav-link text-info active" id="nav-controller-tab" >列表</a>
+            <a href="javaScript:void(0);" th:href="@{/admin/blogControllerInput.html}" class="nav-link text-info" id="nav-send-tab" >发布</a>
+        </div>
+    </nav>
+    <div class="tab-content container" id="nav-tabContent">
+        <!--博客管理界面-->
+        <div class="show active " id="nav-controller">
+            <div class="my-5 ">
+                <form action="#" th:action="@{/searchBlog}" method="post">
+                    <div class="row align-items-center border border-muted rounded text-center pl-5 py-5">
+                        <div class="col-4">
+                            <input type="text" name="title" class="form-control mb-2"  placeholder="标题">
+                        </div>
+                        <div class="col-4">
+                            <div class="select mb-2">
+                                <select class="custom-select" id="validationDefault04"  name="typeOption" required>
+                                    <option selected disabled value="">分类</option>
+                                    <option th:each="type:${typeList}" th:text="${type.name}">错误日志</option>
+<!--                                    <option>开发者手册</option>-->
+<!--                                    <option>思想与感悟</option>-->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" name="recommend" value="true" id="autoSizingCheck">
+                                <label class="form-check-label m-text-thin m-text-spaced" for="autoSizingCheck">
+                                    推荐
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <button type="submit" class="btn btn-outline-success mb-2">搜索</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!--表格内容-->
+                <div class=" row border border-muted rounded my-5">
+                    <table class="table table-hover text-center text-dark" th:id="tobody" th:fragment="tobody">
+                        <thead>
+                        <tr>
+                            <th scope="col">标题</th>
+                            <th scope="col">类型</th>
+                            <th scope="col">推荐</th>
+                            <th scope="col">更新时间</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="blog:${blogList.list}">
+                            <th scope="row" class="text-secondary" th:text="${blog.title}">刻意练习清单</th>
+                            <td th:text="${blog.type.name}">认知升级</td>
+                            <td th:text="${blog.recommend.contains('true') ? '是':'否'}">是</td>
+                            <td th:text="${blog.updateTime == null ? dateFormat.format(blog.createTime):dateFormat.format(blog.updateTime)}">2021-12-04</td>
+                            <td>
+                                <div class=" m-text-thin">
+                                    <button th:id="'modify'+${blog.id}" class="btn btn-outline-primary">修改</button>
+                                    <script>
+                                        $(function () {
+                                            $('#modify'+[[${blog.id}]]).click(function () {
+                                                $.ajax({
+
+                                                    type: 'get',
+                                                    url: "/admin/blogControllerUpdatePage.html",
+                                                    contextType:"application/json",
+                                                    data: {'id':[[${blog.id}]]},
+                                                    success:function (data) {
+                                                        location.href=data;
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                    <button th:id="'del'+${blog.id}" class="btn btn-outline-danger">删除</button>
+                                    <script>
+                                        $(function () {
+                                            $('#del'+[[${blog.id}]]).click(function () {
+                                                $.ajax({
+
+                                                    type: 'get',
+                                                    url: "/deleteBlog",
+                                                    contextType:"application/json",
+                                                    data: {'id':[[${blog.id}]]},
+                                                    success:function (data) {
+                                                        location.href=data;
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--翻页-->
+                        <tr>
+
+                            <td>
+                                <!--翻页按钮-->
+                                <div class="m-text-thin m-text-spaced ">
+                                    <button id="nextPage" class="btn btn-outline-warning" th:unless="${blogList.pageNum==1}">上一页</button>
+                                    <button id="postPage" class="btn btn-outline-warning" th:unless="${blogList.pageNum==blogList.pages}">下一页</button>
+                                    <script>
+                                        $(function () {
+                                            //翻看下一页
+                                            $('#nextPage').click(function () {
+
+                                                $.ajax({
+                                                    type: "get",
+                                                    url: "/blogController.html",
+                                                    contextType:"application/json",
+                                                    data: {'ajax':'true','pn':[[${blogList.pageNum}-1]]},
+                                                    success:function (data) {
+                                                        $('#tobody').html(data);
+                                                    }
+                                                });
+                                            });
+
+                                            //翻看上一页
+                                            $('#postPage').click(function () {
+
+                                                $.ajax({
+                                                    type: "get",
+                                                    url: "/blogController.html",
+                                                    contextType:"application/json",
+                                                    data: {'ajax':'true','pn':[[${blogList.pageNum}+1]]},
+                                                    success:function (data) {
+                                                        $('#tobody').html(data);
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td class="text-warning ml-5" th:text="${blogList.pageNum}">1</td>
+                            <td></td>
+                            <td>
+                                <div class="m-text-thin m-text-spaced">
+                                    <button id="addBlog" class="btn btn-outline-warning"><i class="bi bi-brush">新增</i></button>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        $('#addBlog').click(function () {
+                                            $.ajax({
+
+                                                type: 'get',
+                                                url: "/admin/blogControllerInputPage.html",
+                                                contextType:"application/json",
+                                                success:function (data) {
+                                                    location.href=data;
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--底部footer-->
+<div th:replace="common :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.auth.dao.BlogMapper">
+  <resultMap id="BaseResultMap" type="com.company.project.auth.model.Blog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="blog.id" jdbcType="BIGINT" property="id" />
+    <result column="blog.appreciation" jdbcType="VARCHAR" property="appreciation" />
+    <result column="blog.commentabled" jdbcType="VARCHAR" property="commentabled" />
+    <result column="blog.content" jdbcType="VARCHAR" property="content" />
+    <result column="blog.create_time" jdbcType="DATE" property="createTime" />
+    <result column="blog.first_picture" jdbcType="VARCHAR" property="firstPicture" />
+    <result column="blog.address" jdbcType="VARCHAR" property="address" />
+    <result column="blog.recommend" jdbcType="VARCHAR" property="recommend" />
+    <result column="blog.share_statement" jdbcType="VARCHAR" property="shareStatement" />
+    <result column="blog.title" jdbcType="VARCHAR" property="title" />
+    <result column="blog.update_time" jdbcType="DATE" property="updateTime" />
+    <result column="blog.views" jdbcType="VARCHAR" property="views" />
+    <result column="blog.likes" jdbcType="BIGINT" property="likes" />
+    <result column="blog.love" jdbcType="BIGINT" property="love" />
+  </resultMap>
+
+  <!--保存blog实体-->
+  <insert id="saveBlog" parameterType="com.company.project.auth.model.Blog" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    insert into blog values (null,#{appreciation},#{commentabled},#{content},#{createTime},#{firstPicture},#{address},#{recommend},#{shareStatement},
+    #{title},null,#{views},0,0)
+  </insert>
+  <!--查询blog实体-->
+  <select id="findBlogIdList" resultType="Long">
+    select blog.id from blog,t_type,blog_type
+      <where>
+        blog.id = blog_type.blog_id AND t_type.id = blog_type.type_id and t_type.name= #{typeOption}
+        <if test="title != 'null'">
+         and blog.title like concat('%',#{title},'%')
+        </if>
+        <if test="recommend != 'false'">
+         and blog.recommend=#{recommend}
+        </if>
+      </where>
+  </select>
+
+  <!--添加blog实体-->
+  <update id="updateBlog" parameterType="com.company.project.auth.model.Blog">
+    update blog set appreciation=#{appreciation},commentabled=#{commentabled},content=#{content},share_statement=#{shareStatement},
+    recommend=#{recommend},address=#{address},content=#{content},title=#{title},views=#{views},update_time=#{updateTime} where id=#{id}
+  </update>
+</mapper>
